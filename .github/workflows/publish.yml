@@ -45,6 +45,14 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v6  # SDK version from global.json
 
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
     - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
 
@@ -89,6 +97,13 @@ jobs:
         persist-credentials: false
     - name: Setup .NET
       uses: actions/setup-dotnet@v6  # SDK version from global.json
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: Run tests
       run: dotnet test --configuration Release
 
