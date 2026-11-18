@@ -1,3 +1,8 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 1 optimization:
+# - [LOW] Use shallow clone in "create_nuget" job
+# Estimated savings: ~0 min/run
+#
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: publish
@@ -39,7 +44,7 @@ jobs:
     steps:
     - uses: actions/checkout@v7
       with:
-        fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
+        fetch-depth: 1 # Get all history to allow automatic versioning using MinVer
         persist-credentials: false
 
     - name: Setup .NET
